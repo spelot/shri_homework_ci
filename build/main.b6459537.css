@@ -19,6 +19,34 @@
   font-style: normal;
   font-display: fallback;
 }
+/*
+ *  Hack typeface https://github.com/source-foundry/Hack
+ *  License: https://github.com/source-foundry/Hack/blob/master/LICENSE.md
+ */
+@font-face {
+  font-family: "Hack";
+  src: url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff2") format("woff2"), url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Hack";
+  src: url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff2") format("woff2"), url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Hack";
+  src: url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-italic-subset.woff2") format("woff2"), url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-italic-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Hack";
+  src: url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bolditalic-subset.woff2") format("woff2"), url("//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bolditalic-subset.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+}
 :root {
   --white-500: #FFFFFF;
   --black-500: #000000;
@@ -67,6 +95,9 @@
 }
 .Container-Main {
   flex: 1;
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
 }
 .Form {
   display: flex;
@@ -75,7 +106,7 @@
   max-width: 1024px;
   min-width: 270px;
   margin: 0 auto auto 0;
-  padding: 8px 100px;
+  padding: 8px 100px 20px;
   display: flex;
   flex-direction: column;
 }
@@ -171,17 +202,17 @@
 }
 .Card-Data {
   align-self: flex-start;
-  max-width: 60%;
+  max-width: 70%;
 }
 .Card-TimeBlock {
   margin-left: auto;
   align-self: center;
-  opacity: 0.65;
   min-width: 100px;
 }
 .Card-TimeItem {
   margin-bottom: var(--space-s);
   display: flex;
+  opacity: 0.65;
 }
 .Card-TimeItem:last-child {
   margin-bottom: 0;
@@ -262,9 +293,6 @@
   margin-bottom: 8px;
 }
 .Card_page_details .Card-DataTitle {
-  flex-direction: column;
-}
-.Card_page_details .Card-DataOther {
   flex-direction: column;
 }
 .Card_page_details .Card-OtherInfo:last-child {
@@ -672,14 +700,18 @@
   --input-placeholder-line-height: var(--space-l);
   --input-placeholder-color: var(--color-text);
   --input-border-radius: var(--button-border-radius);
+  --input-font-size: var(--text-font-size-s);
+  --input-line-height: 15px;
   position: relative;
   display: inline-block;
   width: 100%;
   max-width: 474px;
-  padding: 10px 13px 10px;
+  padding: 9px 13px 8px;
   background: var(--input-bg-color);
   border: 2px solid var(--input-border-color);
   border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  line-height: var(--input-line-height);
 }
 .Input::placeholder {
   font-size: var(--input-placeholder-size);
@@ -774,7 +806,7 @@
   background: var(--color-bg-disabled);
   border-radius: var(--card-border-radius);
   padding: 8px 12px;
-  font-family: monospace;
+  font-family: "Hack", monospace;
   font-style: normal;
   font-weight: normal;
   font-size: var(--text-font-size-xs);
@@ -784,6 +816,14 @@
   overflow-y: hidden;
   overflow-x: auto;
   border-radius: 6px;
+}
+.BuildLog::-webkit-scrollbar {
+  height: 4px;
+  margin: 4px;
+}
+.BuildLog::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 100px;
 }
 
 html {

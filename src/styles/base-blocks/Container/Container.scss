@@ -6,6 +6,9 @@
 
   &-Main {
     flex: 1;
+    max-width: $screen-desktop;
+    width: 100%;
+    margin: 0 auto;
   }
 
   &-Footer {}

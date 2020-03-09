@@ -21,3 +21,35 @@
   font-style: normal;
   font-display: fallback;
 }
+
+/*
+ *  Hack typeface https://github.com/source-foundry/Hack
+ *  License: https://github.com/source-foundry/Hack/blob/master/LICENSE.md
+ */
+ @font-face {
+  font-family: 'Hack';
+  src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-italic-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-italic-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bolditalic-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bolditalic-subset.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+}

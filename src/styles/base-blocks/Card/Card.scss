@@ -37,19 +37,19 @@
 
   &-Data {
     align-self: flex-start;
-    max-width: 60%;
+    max-width: 70%;
   }
 
   &-TimeBlock {
     margin-left: auto;
     align-self: center;
-    opacity: 0.65;
     min-width: 100px;
   }
 
   &-TimeItem {
     margin-bottom: var(--space-s);
     display: flex;
+    opacity: 0.65;
 
     &:last-child {
       margin-bottom: 0;
@@ -160,10 +160,6 @@
       }
 
       & .Card-DataTitle {
-        flex-direction: column;
-      }
-
-      & .Card-DataOther {
         flex-direction: column;
       }
 

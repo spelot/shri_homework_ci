@@ -2,7 +2,7 @@
   background: var(--color-bg-disabled);
   border-radius: var(--card-border-radius);
   padding: 8px 12px;
-  font-family: monospace;
+  font-family: 'Hack', monospace;
   font-style: normal;
   font-weight: normal;
   font-size: var(--text-font-size-xs);
@@ -12,4 +12,14 @@
   overflow-y: hidden;
   overflow-x: auto;
   border-radius: 6px;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+    margin: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 100px;
+  }
 }
