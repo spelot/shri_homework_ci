@@ -1,0 +1,121 @@
+.Button {
+  --button-font-size: var(--text-font-size-s);
+  --button-font-weight: normal;
+  --button-line-height: 36px;
+  --button-color: var(--black-500);
+  --button-letter-spacing: normal;
+  --button-bg-color: var(--color-bg-control);
+  --button-bg-color-hovered: var(--color-bg-control-hovered);
+  --button-radius: 4px;
+  --button-padding: 20px;
+  --button-active-border-color: var(--color-border-focused);
+
+  background-color: var(--button-bg-color);
+  padding: 0 var(--button-padding);
+  cursor: pointer;
+  border-radius: var(--button-radius);
+  border: none;
+
+  &-Icon {
+    display: none;
+  }
+
+  &-Text {
+    font-size: var(--button-font-size);
+    line-height: var(--button-line-height);
+    color: var(--button-color);
+    font-weight: var(--button-font-weight);
+    letter-spacing: var(--button-letter-spacing);
+    text-align: center;
+  }
+
+  &:hover {
+    background-color: var(--button-bg-color-hovered);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: inset 0px 0px 0px 2px var(--button-active-border-color);
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &_type {
+    &_control {
+      & .Button-Text {
+        line-height: 28px;
+      }
+    }
+
+    &_controlExtended {
+      & .Button-Text {
+        line-height: 28px;
+      }
+    }
+  }
+
+  &_color {
+    &_accent {
+      --button-bg-color: var(--color-bg-action);
+      --button-bg-color-hovered: var(--color-bg-action-hovered);
+      --button-active-border-color: var(--color-border-action-focused);
+    }
+  }
+
+  &_icon {
+    &_before {
+      --button-padding: 8px;
+      display: flex;
+
+      & .Button-Icon {
+        display: block;
+        align-self: center;
+      }
+
+      & .Button-Text {
+        align-self: center;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+
+    &_only {
+      padding: 8px;
+      display: flex;
+
+      & .Button-Icon {
+        display: block;
+        align-self: center;
+      }
+
+      & .Button-Text {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: $screen-mobile) {
+    &_icon {
+      &_before {
+        padding: 8px;
+
+        & .Button-Text {
+          display: none;
+        }
+      }
+    }
+
+    &_type {
+      &_controlExtended {
+        padding-left: 20px;
+        padding-right: 20px;
+
+        & .Button-Text {
+          line-height: 36px;
+        }
+      }
+    }
+  }
+}

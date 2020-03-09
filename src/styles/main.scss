@@ -1,0 +1,74 @@
+@import "./fonts.scss";
+
+$screen-minimum: 270px;
+$screen-mobile-small: 320px;
+$screen-mobile: 576px;
+$screen-desktop: 1024px;
+
+:root {
+  --white-500: #FFFFFF;
+  --black-500: #000000;
+  --blue-grey-50: #F0F2F3;
+  --blue-grey-500: #7F8285;
+  --blue-grey-600: #434445;
+  --blue-grey-600-with-opacity: rgba(67, 68, 69, 0.3);
+  --green-500: #00B341;
+  --orange-500: #F2994A;
+  --yellow-500: #FFCC00;
+  --red-500: #FF3333;
+  --red-600: #E00000;
+
+  --color-bg-base: var(--white-500);
+  --color-bg-heavy: #D9D9D9;
+  --color-bg-control: #E6E6E6;
+  --color-bg-control-hovered: #DBDBDB;
+  --color-bg-disabled: #F2F2F2;
+  --color-bg-action: var(--yellow-500);
+  --color-bg-action-hovered: #F2C200;
+
+  --color-border-focused: #B3B3B3;
+  --color-border-action-focused: #B38F00;
+
+  --color-text: var(--black-500);
+  --color-text-disabled: #7F7F7F;
+
+  --button-border-radius: 4px;
+
+  --space-s: 8px;
+  --space-m: 12px;
+  --space-l: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-xxxl: 64px;
+  --space-xxxxl: 124px;
+
+  --text-font-size-xs: 10px;
+  --text-font-size-s: 13px;
+  --text-font-size-m: 15px;
+  --text-font-size-l: 18px;
+
+  --letter-spacing-s: 0.03px;
+  --letter-spacing-m: 0.06px;
+  --letter-spacing-l: 0.25px;
+
+  --headline-font-m: 15px;
+  --headline-font-xl: 24px;
+}
+
+@import "./base-blocks/base-blocks.scss";
+@import "./content-blocks/content-blocks.scss";
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  font-family: 'YS Text', Arial, Helvetica, sans-serif;
+}

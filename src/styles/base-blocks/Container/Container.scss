@@ -1,0 +1,12 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+
+  &-Header {}
+
+  &-Main {
+    flex: 1;
+  }
+
+  &-Footer {}
+}

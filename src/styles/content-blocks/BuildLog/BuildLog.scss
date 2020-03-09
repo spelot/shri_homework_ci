@@ -1,0 +1,15 @@
+.BuildLog {
+  background: var(--color-bg-disabled);
+  border-radius: var(--card-border-radius);
+  padding: 8px 12px;
+  font-family: monospace;
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--text-font-size-xs);
+  line-height: 20px;
+  color: var(--color-text);
+  opacity: 0.9;
+  overflow-y: hidden;
+  overflow-x: auto;
+  border-radius: 6px;
+}
