@@ -31,6 +31,7 @@
   src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-regular-subset.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display: fallback;
 }
 
 @font-face {
@@ -38,6 +39,7 @@
   src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bold-subset.woff') format('woff');
   font-weight: 700;
   font-style: normal;
+  font-display: fallback;
 }
 
 @font-face {
@@ -45,6 +47,7 @@
   src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-italic-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-italic-webfont.woff') format('woff');
   font-weight: 400;
   font-style: italic;
+  font-display: fallback;
 }
 
 @font-face {
@@ -52,4 +55,5 @@
   src: url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bolditalic-subset.woff2') format('woff2'), url('//cdn.jsdelivr.net/npm/hack-font@3/build/web/fonts/hack-bolditalic-subset.woff') format('woff');
   font-weight: 700;
   font-style: italic;
+  font-display: fallback;
 }

@@ -1,6 +1,6 @@
 .BuildLog {
   background: var(--color-bg-disabled);
-  border-radius: var(--card-border-radius);
+  border-radius: var(--border-radius-l);
   padding: 8px 12px;
   font-family: 'Hack', monospace;
   font-style: normal;
@@ -11,11 +11,9 @@
   opacity: 0.9;
   overflow-y: hidden;
   overflow-x: auto;
-  border-radius: 6px;
 
   &::-webkit-scrollbar {
-    height: 4px;
-    margin: 4px;
+    height: var(--space-xs);
   }
 
   &::-webkit-scrollbar-thumb {

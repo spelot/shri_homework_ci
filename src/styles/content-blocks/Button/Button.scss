@@ -6,7 +6,7 @@
   --button-letter-spacing: normal;
   --button-bg-color: var(--color-bg-control);
   --button-bg-color-hovered: var(--color-bg-control-hovered);
-  --button-radius: 4px;
+  --button-radius: var(--border-radius-s);
   --button-padding: 20px;
   --button-active-border-color: var(--color-border-focused);
 
@@ -66,7 +66,7 @@
 
   &_icon {
     &_before {
-      --button-padding: 8px;
+      --button-padding: var(--space-s);
       display: flex;
 
       & .Button-Icon {
@@ -82,7 +82,7 @@
     }
 
     &_only {
-      padding: 8px;
+      padding: var(--space-s);
       display: flex;
 
       & .Button-Icon {
@@ -99,7 +99,7 @@
   @media (max-width: $screen-mobile) {
     &_icon {
       &_before {
-        padding: 8px;
+        padding: var(--space-s);
 
         & .Button-Text {
           display: none;

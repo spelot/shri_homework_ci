@@ -5,7 +5,7 @@
   --input-placeholder-size: var(--text-font-size-s);
   --input-placeholder-line-height: var(--space-l);
   --input-placeholder-color: var(--color-text);
-  --input-border-radius: var(--button-border-radius);
+  --input-border-radius: var(--border-radius-s);
   --input-font-size: var(--text-font-size-s);
   --input-line-height: 15px;
 
@@ -13,43 +13,47 @@
   display: inline-block;
   width: 100%;
   max-width: 474px;
-  padding: 9px 13px 8px;
-  background: var(--input-bg-color);
-  border: 2px solid var(--input-border-color);
-  border-radius: var(--input-border-radius);
-  font-size: var(--input-font-size);
-  line-height: var(--input-line-height);
 
-  &::placeholder {
-    font-size: var(--input-placeholder-size);
-    line-height: var(--input-placeholder-line-height);
-    color: var(--input-placeholder-color);
-    opacity: 0.2;
-  }
+  &-Control {
+    display: inline-block;
+    width: 100%;
+    padding: 9px 13px 8px;
+    background: var(--input-bg-color);
+    border: 2px solid var(--input-border-color);
+    border-radius: var(--input-border-radius);
+    font-size: var(--input-font-size);
+    line-height: var(--input-line-height);
+    text-align: inherit;
 
-  &:placeholder-shown {
-    &::after {
-      display: none;
+    &::placeholder {
+      font-size: var(--input-placeholder-size);
+      line-height: var(--input-placeholder-line-height);
+      color: var(--input-placeholder-color);
+      opacity: 0.2;
+    }
+
+    &:focus {
+      --input-border-color: var(--input-border-active);
+      outline: none;
     }
   }
 
-  &:focus {
-    --input-border-color: var(--input-border-active);
-    outline: none;
+  & .Input-ClearIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+    cursor: pointer;
   }
 
   &_clear {
     &_visible {
-      &::after {
-        content: '';
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 16px;
-        height: 16px;
-        background: inline('./img/clear_icon.svg') no-repeat;
-        border-radius: 50%;
-        cursor: pointer;
+      & .Input-Control {
+        &:placeholder-shown {
+          & ~ .Input-ClearIcon {
+            display: none;
+          }
+        }
       }
     }
   }

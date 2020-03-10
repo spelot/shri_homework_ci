@@ -25,6 +25,7 @@
       ('calendar'),
       ('user'),
       ('stopwatch'),
+      ('clear'),
     )),
     (size: var(--space-xl), sizeSass: $icon_size_xl, y: $icon_size_m + $icon_size_l + 2*$icon_gap, array: (
       ('done'),

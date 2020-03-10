@@ -5,7 +5,7 @@
                  0px 0px 1px var(--card-shadow-color);
   --card-shadow-hovered: 0px 2px 8px var(--card-shadow-color),
                          0px 0px 1px var(--card-shadow-color);
-  --card-border-radius: 6px;
+  --card-border-radius: var(--border-radius-l);
 
   display: block;
   width: 100%;
@@ -58,7 +58,7 @@
 
   &-TimeIcon {
     align-self: flex-start;
-    margin-right: 4px;
+    margin-right: var(--space-xs);
     opacity: 0.3;
   }
 
@@ -72,14 +72,14 @@
   }
 
   &-Number {
-    margin-right: 4px;
+    margin-right: var(--space-xs);
     font-weight: 500;
     font-size: var(--text-font-size-l);
     line-height: 20px;
   }
 
   &-CommitName {
-    margin-right: 4px;
+    margin-right: var(--space-xs);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -88,24 +88,21 @@
   &-DataOther {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: -8px;
   }
 
   &-OtherInfo {
     display: flex;
-    margin-bottom: 8px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
+    margin-bottom: var(--space-s);
   }
 
   &-OtherIcon {
-    margin-right: 4px;
+    margin-right: var(--space-xs);
     opacity: 0.3;
   }
 
   &-OtherText {
-    margin-right: 4px;
+    margin-right: var(--space-xs);
     white-space: nowrap;
 
     &:last-child {
@@ -145,27 +142,22 @@
         box-shadow: var(--card-shadow);
       }
 
-      & .Card-Data {
-        max-width: 100%;
-      }
-
       & .Card-DataWrapper {
         flex-direction: column;
         width: calc(100% - 24px);
       }
 
-      & .Card-Number {
-        margin-right: 0;
-        margin-bottom: 8px;
+      & .Card-Data {
+        max-width: 100%;
       }
 
-      & .Card-DataTitle {
-        flex-direction: column;
+      & .Card-DataOther {
+        margin-bottom: 0;
       }
 
       & .Card-OtherInfo {
         &:last-child {
-          margin-bottom: 8px;
+          margin-bottom: var(--space-s);
         }
       }
 
@@ -183,7 +175,7 @@
         display: flex;
         justify-content: flex-start;
         position: relative;
-        margin-top: 8px;
+        margin-top: var(--space-s);
 
         &::after {
           content: '';
@@ -198,6 +190,7 @@
 
       & .Card-TimeItem {
         margin-right: 10px;
+        margin-bottom: 0;
 
         &:last-child {
           margin-right: 0;
@@ -220,7 +213,7 @@
 
     &-Number {
       margin-right: 0;
-      margin-bottom: 8px;
+      margin-bottom: var(--space-s);
     }
 
     &-DataTitle {
@@ -229,11 +222,12 @@
 
     &-DataOther {
       flex-direction: column;
+      margin-bottom: 0;
     }
 
     &-OtherInfo {
       &:last-child {
-        margin-bottom: 8px;
+        margin-bottom: var(--space-s);
       }
     }
 
@@ -251,7 +245,7 @@
       display: flex;
       justify-content: flex-start;
       position: relative;
-      margin-top: 8px;
+      margin-top: var(--space-s);
 
       &::after {
         content: '';
@@ -266,6 +260,7 @@
 
     &-TimeItem {
       margin-right: 10px;
+      margin-bottom: 0;
 
       &:last-child {
         margin-right: 0;
