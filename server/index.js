@@ -34,42 +34,41 @@ let repoName = null,
     mainBranch,
     period,
     timeoutId = null,
-    lastHashCommit;
+    lastHashCommit,
+    pathToRepo;
 
 const startUpdate = async () => {
   clearTimeout(timeoutId);
-  // очистить папку с репой
-  // выкачать репу
-  // перейти на нужную ветку
+  // очистить папку с репой && выкачать репу && перейти на нужную ветку
+  const pathToLocalRepo = path.resolve(__dirname, 'localRepo');
+  pathToRepo = path.resolve(__dirname, 'localRepo', repoName.split('/')[1]);
+  await execPromisified(`cd ${pathToLocalRepo} && rm -r ${pathToLocalRepo}/* && git clone https://github.com/${repoName}.git && cd ${pathToRepo} && git checkout ${mainBranch}`);
 
-  // TODO: запомнить хэш последнего коммита на ветке
-  lastHashCommit = 0;
-  console.log('startUpdate now');
+  // запомнить хэш последнего коммита на ветке
+  lastHashCommit = await execPromisified(`cd ${pathToRepo} && git rev-parse --short HEAD`);
+  console.log('lastHashCommit: ', lastHashCommit);
 
-  await update();
+  // TODO:
+  // запустить билд
+  await execPromisified(`cd ${pathToRepo} && ls`);
+  await new Promise(resolve => setTimeout(resolve, 5000));
 
   timeoutId = setTimeout(update, period);
 };
 const update = async () => {
+  console.log('check repo for new commits');
   if (repoName === null) return;
 
-  console.log('update now');
+  // get hash of last commit on mainBranch
+  const lastHashCommitNow = await execPromisified(`cd ${pathToRepo} && git pull && git rev-parse --short HEAD`);
+  if (lastHashCommitNow === lastHashCommit) return;
 
-  const dir = await execPromisified('pwd');
-  console.log('dir: ', dir);
-  return;
+  // TODO:
+  // запустить билд
+  await execPromisified(`cd ${pathToRepo} && ls`);
+  await new Promise(resolve => setTimeout(resolve, 5000));
 
-  // // git pull
-  // const dir = await execPromisified('git pull');
-
-  // // get hash of last commit on mainBranch
-  // const lastHashCommitNow = await execPromisified('git rev-parse --short HEAD');
-
-  // if (lastHashCommitNow === lastHashCommit) return;
-
-
-
-  // setTimeout(update, period);
+  timeoutId = setTimeout(update, period);
 };
 
 
@@ -103,7 +102,7 @@ app.post('/api/settings', async (req, res) => {
   mainBranch = branch;
   period = Number(minutes) * 60 * 1000;
 
-  await startUpdate();
+  startUpdate();
 
   const params = {
     repoName: repository,
@@ -113,6 +112,18 @@ app.post('/api/settings', async (req, res) => {
   };
 
   const { full, short } = await axiosPost(api, '/conf', params);
+
+  res.end( JSON.stringify(short) );
+});
+
+app.get('/api/settings/delete', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+
+  const { full, short } = await axiosDelete(api, '/conf');
+
+  // stop cheking repo by interval
+  clearTimeout(timeoutId);
+  repoName = null;
 
   res.end( JSON.stringify(short) );
 });
@@ -154,7 +165,13 @@ app.post('/api/builds/:commitHash', async (req, res) => {
   ];
   const [branchNameRaw, commitRaw] = await Promise.all(promises);
 
-  const branchName = branchNameRaw.split('origin/')[1];
+  let branchName;
+  if ( branchNameRaw.includes(mainBranch) ) {
+    branchName = mainBranch;
+  } else {
+    // TODO: check
+    branchName = branchNameRaw.split('origin/')[1];
+  }
   const [authorName, commitMessage] = commitRaw.split('\|/');
 
   let full, short;
