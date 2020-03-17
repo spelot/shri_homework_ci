@@ -37,38 +37,63 @@ let repoName = null,
     lastHashCommit,
     pathToRepo;
 
-const startUpdate = async () => {
+const startUpdate = () => {
   clearTimeout(timeoutId);
   // очистить папку с репой && выкачать репу && перейти на нужную ветку
   const pathToLocalRepo = path.resolve(__dirname, 'localRepo');
   pathToRepo = path.resolve(__dirname, 'localRepo', repoName.split('/')[1]);
-  await execPromisified(`cd ${pathToLocalRepo} && rm -r ${pathToLocalRepo}/* && git clone https://github.com/${repoName}.git && cd ${pathToRepo} && git checkout ${mainBranch}`);
+  exec(`cd ${pathToLocalRepo} && rm -r ${pathToLocalRepo}/* && git clone https://github.com/${repoName}.git && cd ${pathToRepo} && git checkout ${mainBranch}`, (error, out) => {
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(out);
 
-  // запомнить хэш последнего коммита на ветке
-  lastHashCommit = await execPromisified(`cd ${pathToRepo} && git rev-parse --short HEAD`);
-  console.log('lastHashCommit: ', lastHashCommit);
+      // запомнить хэш последнего коммита на ветке
+      execPromisified(`cd ${pathToRepo} && git rev-parse --short HEAD`)
+        .then(out => {
+          lastHashCommit = out;
+          console.log('lastHashCommit: ', lastHashCommit);
 
-  // TODO:
-  // запустить билд
-  await execPromisified(`cd ${pathToRepo} && ls`);
-  await new Promise(resolve => setTimeout(resolve, 5000));
-
-  timeoutId = setTimeout(update, period);
+          // TODO:
+          // запустить билд
+          exec(`cd ${pathToRepo} && ${buildCommand}`, (error1, out1) => {
+            if (error1) {
+              console.error(error1);
+            } else {
+              console.log(out1);
+              timeoutId = setTimeout(update, period);
+            }
+          });
+        })
+        .catch(err => console.error(err));
+    }
+  });
 };
-const update = async () => {
-  console.log('check repo for new commits');
+const update = () => {
   if (repoName === null) return;
 
+  console.log('check repo for new commits');
+
   // get hash of last commit on mainBranch
-  const lastHashCommitNow = await execPromisified(`cd ${pathToRepo} && git pull && git rev-parse --short HEAD`);
-  if (lastHashCommitNow === lastHashCommit) return;
+  execPromisified(`cd ${pathToRepo} && git pull --quiet && git rev-parse --short HEAD`)
+    .then(out => {
+      lastHashCommitNow = out;
+      console.log('lastHashCommit: ', lastHashCommit, 'lastHashCommitNow: ', lastHashCommitNow);
 
-  // TODO:
-  // запустить билд
-  await execPromisified(`cd ${pathToRepo} && ls`);
-  await new Promise(resolve => setTimeout(resolve, 5000));
+      if (lastHashCommitNow === lastHashCommit) return;
 
-  timeoutId = setTimeout(update, period);
+      // TODO:
+      // запустить билд
+      exec(`cd ${pathToRepo} && ${buildCommand}`, (error1, out1) => {
+        if (error1) {
+          console.error(error1);
+        } else {
+          console.log(out1);
+          timeoutId = setTimeout(update, period);
+        }
+      });
+    })
+    .catch(err => console.error(err));
 };
 
 
