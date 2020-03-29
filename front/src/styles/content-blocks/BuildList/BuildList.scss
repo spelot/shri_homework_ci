@@ -1,0 +1,32 @@
+.BuildList {
+  display: flex;
+
+  &-Content {
+    max-width: $screen-desktop;
+    min-width: $screen-mobile-small;
+    width: 100%;
+    margin: 0 auto;
+    padding: 8px 100px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-Item {
+    align-self: center;
+    margin-bottom: var(--space-s);
+  }
+
+  &-Button {
+    align-self: flex-start;
+  }
+
+  @media (max-width: $screen-mobile) {
+    &-Content {
+      padding: 12px 16px 16px;
+    }
+
+    &-Button {
+      width: 100%;
+    }
+  }
+}
