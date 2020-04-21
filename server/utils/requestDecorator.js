@@ -1,23 +1,19 @@
 module.exports = async (method, url, data) => {
-  let response,
-      full,
-      short;
+  let response, full, short;
 
   try {
     full = await method(url, data);
-    short = {
-      status: full.status,
-      data: full.data
-    };
+    short = full.data;
   } catch (error) {
+    full = error;
     short = {
-      error: error.message
+      error: error.message,
     };
   }
 
   response = {
     full,
-    short
+    short,
   };
   return response;
 };

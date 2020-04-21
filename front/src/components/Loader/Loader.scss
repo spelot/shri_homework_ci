@@ -1,0 +1,68 @@
+@import "../../styles/constants.scss";
+
+.Loader {
+  --spiner-color-base-from: var(--color-bg-control);
+  --spiner-color-base-to: var(--blue-grey-600);
+  --spiner-color-secondary: transparent;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  &-SpinerWrapper {
+    flex: 1;
+    max-width: $screen-desktop;
+    width: 100%;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-Spiner {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    animation: __spin-animation 1s infinite ease;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      border-top: solid 10px var(--spiner-color-base-from);
+      border-right: solid 10px var(--spiner-color-secondary);
+      border-bottom: solid 10px var(--spiner-color-base-to);
+      border-left: solid 10px var(--spiner-color-secondary);
+      border-radius: 100%;
+      animation: __spin-color 1s infinite ease;
+    }
+  }
+
+  @keyframes __spin-animation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes __spin-color {
+    from {
+      border-top-color: var(--spiner-color-base-from);
+      border-bottom-color: var(--spiner-color-base-to);
+    }
+    50% {
+      border-top-color: var(--spiner-color-base-to);
+      border-bottom-color: var(--spiner-color-base-from);
+    }
+    to {
+      border-top-color: var(--spiner-color-base-from);
+      border-bottom-color: var(--spiner-color-base-to);
+    }
+  }
+}

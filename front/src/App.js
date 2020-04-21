@@ -1,65 +1,98 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
 
-import { connect } from "react-redux";
-import { saveSettings } from "./store/actions";
+import { useSelector, useDispatch } from "react-redux";
 
-import IndexPage from "./pages/Index/IndexPage";
-import SettingsPage from "./pages/Settings/SettingsPage";
-import BuildHistoryPage from "./pages/BuildHistory/BuildHistoryPage";
-import BuildDetailsPage from "./pages/BuildDetails/BuildDetailsPage";
-import NotFoundPage from "./pages/NotFound/NotFoundPage";
+import IndexPage from "./pages/IndexPage/IndexPage";
+import SettingsPage from "./pages/SettingsPage/SettingsPage";
+import BuildHistoryPage from "./pages/BuildHistoryPage/BuildHistoryPage";
+import BuildDetailsPage from "./pages/BuildDetailsPage/BuildDetailsPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import "./styles/main.scss";
 
-import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { getSettingsConfig } from "./store/reducers/settingsReducer";
+import history from "./history";
+import { fetchSettingsBeforeUsingApp } from "./store/actions/settingsActions";
+import {
+  getIsAppLoading,
+  getIsPopupActive,
+  getIsInProgress,
+} from "./store/reducers/commonReducer";
+import Loader from "./components/Loader/Loader";
+import Popup from "./components/Popup/Popup";
 
-export function App(props) {
-  const { config, saveSettings } = props;
-  let indexPageContent;
-  if (config === null) {
-    indexPageContent = <IndexPage modifiers="Container-Main" />;
-  } else {
-    indexPageContent = <BuildHistoryPage modifiers="Container-Main" />;
-  }
+function App(props) {
+  const isFetching = useSelector(getIsAppLoading);
+  const isPopupActive = useSelector(getIsPopupActive);
+  const isInProgress = useSelector(getIsInProgress);
+  const settingsConfig = useSelector(getSettingsConfig);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchSettingsBeforeUsingApp());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const root = document.getElementById("root");
+    if (isPopupActive) {
+      root.classList.add("Container_popup_active");
+    } else {
+      root.classList.remove("Container_popup_active");
+    }
+  }, [isPopupActive]);
+
+  useEffect(() => {
+    const root = document.getElementById("root");
+    if (isInProgress) {
+      root.classList.add("Container_inactive");
+    } else {
+      root.classList.remove("Container_inactive");
+    }
+  }, [isInProgress]);
 
   return (
-    <Router>
-      <Header />
+    <>
+      {isFetching ? (
+        <Loader />
+      ) : (
+        <Router history={history}>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() =>
+                settingsConfig.repoName ? (
+                  <BuildHistoryPage className="Container-Main" />
+                ) : (
+                  <IndexPage className="Container-Main" />
+                )
+              }
+            />
+            <Route
+              path="/build/:buildId"
+              render={({ location }) =>
+                settingsConfig.repoName ? (
+                  <BuildDetailsPage className="Container-Main" />
+                ) : (
+                  <Redirect to={{ pathname: "/", state: { from: location } }} />
+                )
+              }
+            />
+            <Route path="/settings">
+              <SettingsPage className="Container-Main" />
+            </Route>
+            <Route path="*">
+              <NotFoundPage className="Container-Main" />
+            </Route>
+          </Switch>
 
-      <Switch>
-        <Route exact path="/">
-          {indexPageContent}
-        </Route>
-        <Route path="/settings">
-          <SettingsPage modifiers="Container-Main" />
-        </Route>
-        <Route path="/build/:buildId">
-          <BuildDetailsPage modifiers="Container-Main" />
-        </Route>
-        <Route path="*">
-          <NotFoundPage modifiers="Container-Main" />
-        </Route>
-      </Switch>
-
-      <Footer modifiers="Container-Footer" />
-    </Router>
+          <Footer className="Container-Footer" />
+          {isPopupActive && <Popup modifiers={[["popup"]]} />}
+        </Router>
+      )}
+    </>
   );
 }
 
-const mapStateToProps = state => ({
-  config: state.config
-});
-
-const mapDispatchToProps = dispatch => ({
-  saveSettings: config => dispatch(saveSettings(config))
-});
-
-export const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

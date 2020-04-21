@@ -1,76 +1,87 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import processModifiers from "../../utils/processModifiers";
+import Button from "../Button/Button";
+import { useHistory } from "react-router-dom";
+import constants from "../../utils/constants";
+import "./Header.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { togglePopup } from "../../store/actions/commonActions";
+import { rebuild } from "../../store/actions/buildsActions";
+import { getDetails } from "../../store/reducers/buildsReducer";
 
 function Header(props) {
-  const { modifiers } = props;
+  const blockName = "Header";
+  const {
+    className = "",
+    modifiers = [],
+    title = {
+      text: false,
+      modifiers: [],
+    },
+    buttons = [],
+  } = props;
 
-  // TODO:
-  // добавить хедер на странице build-history
-
-  const indexHeader = (
-    <header className={`${modifiers} Header`}>
-      <div className="Header-Content">
-        <div className="Header-Title Text Text_type_headerTitle">
-          School CI server
-        </div>
-        <div className="Header-ButtonsBlock">
-          <button className="Button Button_type_control Button_icon_before">
-            <div className="Button-Icon Icon Icon_type_settings"></div>
-            <div className="Button-Text">Settings</div>
-          </button>
-        </div>
-      </div>
-    </header>
-  );
-
-  const settingsHeader = (
-    <header className={`${modifiers} Header`}>
-      <div className="Header-Content">
-        <div className="Header-Title Text Text_type_headerTitle">
-          School CI server
-        </div>
-      </div>
-    </header>
-  );
-
-  const buildDetailsHeader = (
-    <header className={`${modifiers} Header`}>
-      <div className="Header-Content">
-        <div className="Header-Title Text Text_type_repositoryName">
-          philip1967/my-awesome-repo
-        </div>
-        <div className="Header-ButtonsBlock">
-          <button className="Header-Button Button Button_type_control Button_icon_before">
-            <div className="Button-Icon Icon Icon_type_restart"></div>
-            <div className="Button-Text">Rebuild</div>
-          </button>
-          <button className="Header-Button Button Button_type_control Button_icon_only">
-            <div className="Button-Icon Icon Icon_type_settings"></div>
-          </button>
-        </div>
-      </div>
-    </header>
-  );
-
-  const notFoundHeader = (
-    <header className={`${modifiers} Header`}>
-      <div className="Header-Content">
-        <div className="Header-Title Text Text_type_headerTitle">
-          School CI server
-        </div>
-      </div>
-    </header>
-  );
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const details = useSelector(getDetails);
 
   return (
-    <Switch>
-      <Route exact path="/">
-        {indexHeader}
-      </Route>
-      <Route path="/settings">{settingsHeader}</Route>
-      <Route path="/build/:buildId">{buildDetailsHeader}</Route>
-      <Route path="*">{notFoundHeader}</Route>
-    </Switch>
+    <header
+      className={`${className} ${blockName} ${processModifiers(
+        blockName,
+        modifiers
+      )}`}
+    >
+      <div className={`${blockName}-Content`}>
+        {title.text && (
+          <div
+            className={`${blockName}-Title Text ${processModifiers(
+              "Text",
+              title.modifiers
+            )}`}
+          >
+            {title.text}
+          </div>
+        )}
+        {buttons.length > 0 && (
+          <div className={`${blockName}-ButtonsBlock`}>
+            {buttons.map((buttonProps, buttonKey) => {
+              const { modifiers, onClick, text, iconType } = buttonProps;
+
+              let onClickFn;
+              switch (onClick) {
+                case constants.GO_TO_SETTINGS:
+                  onClickFn = () => history.push("/settings");
+                  break;
+                case constants.RUN_BUILD:
+                  onClickFn = () => {
+                    dispatch(togglePopup(true));
+                  };
+                  break;
+                case constants.REBUILD:
+                  onClickFn = () => {
+                    dispatch(rebuild(details.commitHash));
+                  };
+                  break;
+                default:
+                  break;
+              }
+
+              return (
+                <Button
+                  key={buttonKey}
+                  className={`${blockName}-Button`}
+                  modifiers={modifiers}
+                  onClick={onClickFn}
+                  text={text}
+                  iconType={iconType}
+                />
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </header>
   );
 }
 
