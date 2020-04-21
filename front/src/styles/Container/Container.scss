@@ -1,0 +1,31 @@
+@import "../constants.scss";
+
+.Container {
+  display: flex;
+  flex-direction: column;
+
+  &-Header {
+  }
+
+  &-Main {
+    flex: 1;
+    max-width: $screen-desktop;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &-Footer {
+  }
+
+  &_popup_active {
+    overflow: hidden;
+  }
+
+  &_inactive {
+    pointer-events: none;
+
+    & * {
+      pointer-events: inherit;
+    }
+  }
+}

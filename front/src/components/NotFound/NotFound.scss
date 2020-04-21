@@ -1,0 +1,20 @@
+@import "../../styles/constants.scss";
+
+.NotFound {
+  display: flex;
+
+  &-Content {
+    max-width: $screen-desktop;
+    min-width: $screen-minimum;
+    margin: 0 auto auto 0;
+    padding: 8px 100px 20px;
+    font-size: var(--text-font-size-m);
+  }
+
+  @media (max-width: $screen-mobile) {
+    &-Content {
+      width: 100%;
+      padding: 12px 16px 20px;
+    }
+  }
+}
