@@ -67,7 +67,7 @@ startApp().then(() => {
     pathToRepo = path.resolve(__dirname, "localRepo", repoName.split("/")[1]);
     try {
       await execPromisified(
-        `cd ${__dirname} && mkdir -p localRepo && cd ${pathToLocalRepo} && mkdir -p test-folder && rm -r ${pathToLocalRepo}/* && git clone https://github.com/${repoName}.git && cd ${pathToRepo} && git checkout ${mainBranch}`
+        `mkdir -p localRepo && cd ${pathToLocalRepo} && mkdir -p test-folder && rm -r ${pathToLocalRepo}/* && git clone https://github.com/${repoName}.git && cd ${pathToRepo} && git checkout ${mainBranch}`
       );
 
       // запомнить хэш последнего коммита на ветке
