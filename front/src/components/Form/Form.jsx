@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useHistory } from "react-router-dom";
+import history from "../../history";
 import { useDispatch, useSelector } from "react-redux";
 import processModifiers from "../../utils/processModifiers";
 import { saveSettings } from "../../store/actions/settingsActions";
@@ -11,7 +11,6 @@ function Form(props) {
   const blockName = "Form";
   const { className = "", modifiers = [] } = props;
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const repositoryNameRef = useRef(null);

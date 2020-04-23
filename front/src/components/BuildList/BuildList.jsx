@@ -18,12 +18,12 @@ function BuildList(props) {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchBuilds());
+    dispatch(fetchBuilds({ limit: 10 }));
     // eslint-disable-next-line
   }, []);
 
   const onShowMoreClick = useCallback(
-    () => dispatch(fetchMoreBuilds({ offset: buildsData.length })),
+    () => dispatch(fetchMoreBuilds({ limit: 10, offset: buildsData.length })),
     // eslint-disable-next-line
     [buildsData.length]
   );
@@ -37,20 +37,17 @@ function BuildList(props) {
     >
       <div className={`${blockName}-Content`}>
         {buildsData.map(
-          (
-            {
-              status,
-              id,
-              buildNumber,
-              commitMessage,
-              branchName,
-              commitHash,
-              authorName,
-              start,
-              duration,
-            },
-            cardKey
-          ) => {
+          ({
+            status,
+            id,
+            buildNumber,
+            commitMessage,
+            branchName,
+            commitHash,
+            authorName,
+            start,
+            duration,
+          }) => {
             let correctStatus;
             switch (status) {
               case "InProgress":
@@ -79,7 +76,7 @@ function BuildList(props) {
                 authorName={authorName}
                 start={start}
                 duration={duration}
-                key={cardKey}
+                key={id}
                 status={correctStatus}
               />
             );

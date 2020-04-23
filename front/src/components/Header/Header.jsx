@@ -1,7 +1,7 @@
 import React from "react";
 import processModifiers from "../../utils/processModifiers";
 import Button from "../Button/Button";
-import { useHistory } from "react-router-dom";
+import history from "../../history";
 import constants from "../../utils/constants";
 import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,6 @@ function Header(props) {
     buttons = [],
   } = props;
 
-  const history = useHistory();
   const dispatch = useDispatch();
   const details = useSelector(getDetails);
 

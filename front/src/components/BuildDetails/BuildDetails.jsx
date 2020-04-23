@@ -6,8 +6,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import "./BuildDetails.scss";
 import { fetchBuildDetailsAndLog } from "../../store/actions/buildsActions";
-import { getDetails, getLog } from "../../store/reducers/buildsReducer";
+import {
+  getDetails,
+  getLog,
+  getBuildsData,
+  getNewBuildId,
+} from "../../store/reducers/buildsReducer";
 import { useState } from "react";
+import Loader from "../Loader/Loader";
+import history from "../../history";
 
 const Convert = require("ansi-to-html");
 
@@ -17,6 +24,8 @@ function BuildDetails(props) {
 
   const { buildId } = useParams();
 
+  const buildsData = useSelector(getBuildsData);
+  const newBuildId = useSelector(getNewBuildId);
   const details = useSelector(getDetails);
   const log = useSelector(getLog);
 
@@ -28,10 +37,17 @@ function BuildDetails(props) {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    // fetch build details and log
-    dispatch(fetchBuildDetailsAndLog(buildId));
+    // check if buildId in buildsData or it is newBuildId
+    if (
+      newBuildId === buildId ||
+      buildsData.some((buildData) => buildData.id === buildId)
+    ) {
+      dispatch(fetchBuildDetailsAndLog(buildId));
+    } else {
+      history.push("/");
+    }
     // eslint-disable-next-line
-  }, [buildId]);
+  }, [buildId, buildsData, newBuildId]);
 
   useEffect(() => {
     setLogStringHtml(convert.toHtml(log || ""));
@@ -67,28 +83,31 @@ function BuildDetails(props) {
         modifiers
       )}`}
     >
-      {details && details.id === buildId && (
-        <div className={`${blockName}-Content`}>
-          <Card
-            className={`${blockName}-Item`}
-            modifiers={[
-              ["type", correctStatus],
-              ["page", "details"],
-            ]}
-            buildId={details.id}
-            buildNumber={details.buildNumber}
-            commitMessage={details.commitMessage}
-            branchName={details.branchName}
-            commitHash={details.commitHash}
-            authorName={details.authorName}
-            start={details.start}
-            duration={details.duration}
-            status={correctStatus}
-          />
-
-          {log && <BuildLog logString={logStringHtml} />}
-        </div>
-      )}
+      <div className={`${blockName}-Content`}>
+        {details && details.id === buildId ? (
+          <>
+            <Card
+              className={`${blockName}-Item`}
+              modifiers={[
+                ["type", correctStatus],
+                ["page", "details"],
+              ]}
+              buildId={details.id}
+              buildNumber={details.buildNumber}
+              commitMessage={details.commitMessage}
+              branchName={details.branchName}
+              commitHash={details.commitHash}
+              authorName={details.authorName}
+              start={details.start}
+              duration={details.duration}
+              status={correctStatus}
+            />
+            {logStringHtml && <BuildLog logString={logStringHtml} />}
+          </>
+        ) : (
+          <Loader />
+        )}
+      </div>
     </main>
   );
 }

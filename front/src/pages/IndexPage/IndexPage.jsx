@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import constants from "../../utils/constants";
-import { useHistory } from "react-router-dom";
+import history from "../../history";
 import WithoutConfiguration from "../../components/WithoutConfiguration/WithoutConfiguration";
 import Header from "../../components/Header/Header";
 
 function IndexPage(props) {
   const { className = "", modifiers = [] } = props;
-
-  const history = useHistory();
 
   useEffect(() => {
     document.title = constants.SITE_NAME;

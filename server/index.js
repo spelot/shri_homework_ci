@@ -39,7 +39,7 @@ let repoName = null,
   pathToRepo;
 
 const startApp = async () => {
-  const { full, short } = await axiosGet(api, "/conf");
+  const { full, short } = await axiosGet(api, "/conf", undefined, true);
   console.log("get config before start app: ", short);
 
   const { data } = short;

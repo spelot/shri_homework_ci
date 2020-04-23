@@ -4,6 +4,7 @@ const defaultState = {
   data: [],
   details: null,
   log: null,
+  newBuildId: null,
 };
 
 export default function (state = defaultState, action) {
@@ -14,9 +15,18 @@ export default function (state = defaultState, action) {
         data: [...action.payload],
       };
     case constants.FETCH_MORE_BUILDS:
+      const lastBuild = state.data[state.data.length - 1];
+      const lastBuildNumber = lastBuild ? lastBuild.buildNumber : -1;
+
+      const correctLastNewBuilds = [];
+      for (let i = 0; i < action.payload.length; i++) {
+        if (action.payload[i].buildNumber >= lastBuildNumber) continue;
+
+        correctLastNewBuilds.push(action.payload[i]);
+      }
       return {
         ...state,
-        data: [...state.data, ...action.payload],
+        data: [...state.data, ...correctLastNewBuilds],
       };
     case constants.DETAILS_BUILD:
       return {
@@ -30,6 +40,11 @@ export default function (state = defaultState, action) {
         ...state,
         log: action.payload,
       };
+    case constants.NEW_BUILD_ID:
+      return {
+        ...state,
+        newBuildId: action.payload,
+      };
     default:
       return state;
   }
@@ -38,3 +53,4 @@ export default function (state = defaultState, action) {
 export const getBuildsData = (state) => state.builds.data;
 export const getDetails = (state) => state.builds.details;
 export const getLog = (state) => state.builds.log;
+export const getNewBuildId = (state) => state.builds.newBuildId;
