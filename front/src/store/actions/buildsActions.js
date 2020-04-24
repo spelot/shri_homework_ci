@@ -153,7 +153,7 @@ export const fetchBuildDetailsAndLog = (buildId) => async (dispatch) => {
 export const startNewBuild = (commitHash = "", errorsCount = 0) => (
   dispatch
 ) => {
-  console.log("add build by commit: ", commitHash);
+  console.log("try to add build by commit: ", commitHash);
   dispatch(toggleProgress(true));
 
   return fetch(`${constants.SERVER_API}/builds/${commitHash}`, {
@@ -189,7 +189,7 @@ export const startNewBuild = (commitHash = "", errorsCount = 0) => (
 };
 
 export const rebuild = (commitHash = "", errorsCount = 0) => (dispatch) => {
-  console.log("rebuild build by commit: ", commitHash);
+  console.log("try to rebuild build by commit: ", commitHash);
   dispatch(toggleProgress(true));
 
   return fetch(`${constants.SERVER_API}/builds/${commitHash}`, {
