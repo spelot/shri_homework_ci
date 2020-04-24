@@ -254,6 +254,25 @@ startApp().then(() => {
     res.end(JSON.stringify(short));
   });
 
+  // API NOT FOUND SECTION //
+  app.get("/api/*", function (req, res) {
+    res.status(404).send("Not found");
+  });
+  app.post("/api/*", function (req, res) {
+    res.status(404).send("Not found");
+  });
+  app.put("/api/*", function (req, res) {
+    res.status(404).send("Not found");
+  });
+  app.delete("/api/*", function (req, res) {
+    res.status(404).send("Not found");
+  });
+
+  // STATIC FALLBACK //
+  app.get("/*", function (req, res) {
+    res.sendFile(path.resolve(__dirname, "static", "index.html"));
+  });
+
   const port = process.env["PORT"] || 9999;
 
   app.listen(port, () => {

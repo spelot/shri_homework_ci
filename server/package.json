@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
+    "e2e-tests": "hermione",
+    "e2e-tests:update": "hermione --update-refs",
     "server": "node index.js"
   },
   "repository": {
@@ -19,9 +21,12 @@
   "homepage": "https://github.com/spelot/shri_homework_ci#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "chai": "^4.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "hermione": "^3.1.0",
+    "html-reporter": "^5.15.3"
   },
   "devDependencies": {
     "jest": "^25.4.0"
