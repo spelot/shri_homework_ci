@@ -1,21 +1,33 @@
-const path = require("path");
-const util = require("util");
-const cors = require("cors");
-const querystring = require("querystring");
-const { exec } = require("child_process");
+import path from "path";
+import util from "util";
+import cors from "cors";
+import { exec } from "child_process";
 const execPromisified = util.promisify(exec);
 
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config({
   path: path.resolve(__dirname, ".env"),
 });
 const apiToken = process.env["API_TOKEN"];
 
-const express = require("express");
-const https = require("https");
-const axios = require("axios");
+import express from "express";
+import https from "https";
+import axios, { AxiosRequestConfig } from "axios";
+import axiosGet from "./utils/axiosGet";
+import axiosPost from "./utils/axiosPost";
+import axiosDelete from "./utils/axiosDelete";
+import {
+  ApiResponseType,
+  QueueBuildInput,
+  BuildRequestResultModel,
+  BuildModelArrayHomeworkApiRequest,
+  BuildModelHomeworkApiResponse,
+  BuildStatus,
+  BuildModelArrayHomeworkApiResponse,
+  ConfigurationModelHomeworkApiResponse,
+} from "./typings/api";
 
-const api = axios.create({
+const apiConfig: AxiosRequestConfig = {
   baseURL: "https://hw.shri.yandex/api",
   timeout: 5000,
   headers: {
@@ -24,38 +36,42 @@ const api = axios.create({
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
   }),
-});
+};
 
-const axiosGet = require("./utils/axiosGet");
-const axiosPost = require("./utils/axiosPost");
-const axiosDelete = require("./utils/axiosDelete");
+const api = axios.create(apiConfig);
 
-let repoName = null,
-  buildCommand,
-  mainBranch,
-  period,
-  timeoutId = null,
-  lastHashCommit,
-  pathToRepo;
+let repoName: string | undefined,
+  buildCommand: string,
+  mainBranch: string,
+  period: number,
+  timeoutId: NodeJS.Timeout,
+  lastHashCommit: string,
+  pathToRepo: string;
 
 const startApp = async () => {
-  const { full, short } = await axiosGet(api, "/conf", undefined, true);
+  const { full, short } = await axiosGet<ConfigurationModelHomeworkApiResponse>(
+    api,
+    "/conf",
+    undefined,
+    true
+  );
   console.log("get config before start app: ", short);
 
-  const { data } = short;
+  const { data } = full;
+  const config = data.data;
 
-  if (data) {
-    repoName = data.repoName;
-    buildCommand = data.buildCommand;
-    mainBranch = data.mainBranch;
-    period = Number(data.period) * 60 * 1000;
+  if (config) {
+    repoName = config.repoName;
+    buildCommand = config.buildCommand;
+    mainBranch = config.mainBranch;
+    period = Number(config.period) * 60 * 1000;
     pathToRepo = path.resolve(__dirname, "localRepo", repoName.split("/")[1]);
   }
 };
 
 startApp().then(() => {
   const startUpdate = async () => {
-    if (repoName === null) return;
+    if (repoName === undefined) return;
 
     clearTimeout(timeoutId);
     // 1. создать папку для хранения репозиториев, если она ещё не создана
@@ -89,7 +105,7 @@ startApp().then(() => {
     }
   };
   const update = async () => {
-    if (repoName === null) return;
+    if (repoName === undefined) return;
 
     console.log("check repo for new commits");
 
@@ -136,7 +152,10 @@ startApp().then(() => {
   app.get("/api/settings", async (req, res) => {
     res.setHeader("Content-Type", "application/json");
 
-    const { full, short } = await axiosGet(api, "/conf");
+    const { short } = await axiosGet<ConfigurationModelHomeworkApiResponse>(
+      api,
+      "/conf"
+    );
 
     res.end(JSON.stringify(short));
   });
@@ -177,11 +196,11 @@ startApp().then(() => {
   app.get("/api/settings/delete", async (req, res) => {
     res.setHeader("Content-Type", "application/json");
 
-    const { full, short } = await axiosDelete(api, "/conf");
+    const { short } = await axiosDelete(api, "/conf");
 
     // stop cheking repo by interval
     clearTimeout(timeoutId);
-    repoName = null;
+    repoName = undefined;
 
     res.end(JSON.stringify(short));
   });
@@ -191,21 +210,20 @@ startApp().then(() => {
 
     const { offset, limit } = req.query;
 
-    const params = {};
-    if (offset !== undefined) {
-      params.offset = offset;
-    }
-    if (limit !== undefined) {
-      params.limit = limit;
-    }
+    const params: BuildModelArrayHomeworkApiRequest = {
+      offset: offset !== undefined ? Number(offset) : 0,
+      limit: limit !== undefined ? Number(limit) : 25,
+    };
 
-    let queryUrl = "/build/list";
-    const paramsEncoded = querystring.encode(params);
-    if (paramsEncoded !== "") {
-      queryUrl += `/?${paramsEncoded}`;
-    }
+    const config: AxiosRequestConfig = {
+      params,
+    };
 
-    const { full, short } = await axiosGet(api, queryUrl);
+    const { short } = await axiosGet<BuildModelArrayHomeworkApiResponse>(
+      api,
+      "/build/list",
+      config
+    );
 
     res.end(JSON.stringify(short));
   });
@@ -215,7 +233,7 @@ startApp().then(() => {
 
     const commitHash = req.params.commitHash;
 
-    const { full, short } = await requstNewBuild(commitHash);
+    const { short } = await requstNewBuild(commitHash);
 
     res.end(JSON.stringify(short));
   });
@@ -225,14 +243,17 @@ startApp().then(() => {
 
     const buildId = req.params.buildId;
 
-    const params = {
-      buildId,
+    const config: AxiosRequestConfig = {
+      params: {
+        buildId,
+      },
     };
 
-    const paramsEncoded = querystring.encode(params);
-    const queryUrl = `/build/details/?${paramsEncoded}`;
-
-    const { full, short } = await axiosGet(api, queryUrl);
+    const { short } = await axiosGet<BuildModelHomeworkApiResponse>(
+      api,
+      "/build/details",
+      config
+    );
 
     res.end(JSON.stringify(short));
   });
@@ -242,14 +263,13 @@ startApp().then(() => {
 
     const buildId = req.params.buildId;
 
-    const params = {
-      buildId,
+    const config: AxiosRequestConfig = {
+      params: {
+        buildId,
+      },
     };
 
-    const paramsEncoded = querystring.encode(params);
-    const queryUrl = `/build/log/?${paramsEncoded}`;
-
-    const { full, short } = await axiosGet(api, queryUrl);
+    const { short } = await axiosGet<string>(api, "/build/log", config);
 
     res.end(JSON.stringify(short));
   });
@@ -284,10 +304,10 @@ startApp().then(() => {
  *
  * @param {string} commitHash commit hash str need to build
  */
-async function requstNewBuild(commitHash) {
+async function requstNewBuild(commitHash: string) {
   console.log("start request new build, commitHash: ", commitHash);
 
-  let branchName, authorName, commitMessage, error;
+  let branchName: string, authorName: string, commitMessage: string, error;
   try {
     if (!commitHash) {
       throw new Error("empty commitHash");
@@ -323,21 +343,36 @@ async function requstNewBuild(commitHash) {
     console.error("wrong commitHash", e);
   }
 
-  let response;
+  let response: ApiResponseType<BuildRequestResultModel>;
   if (error) {
     response = {
+      full: {
+        data: {
+          id: "",
+          buildNumber: 0,
+          status: BuildStatus.Waiting,
+        },
+        status: 0,
+        statusText: "",
+        headers: {},
+        config: {},
+      },
       short: {
         error,
       },
     };
   } else {
-    const params = {
-      commitMessage,
+    const params: QueueBuildInput = {
+      commitMessage: commitMessage!,
       commitHash,
-      branchName,
-      authorName,
+      branchName: branchName!,
+      authorName: authorName!,
     };
-    response = await axiosPost(api, "/build/request", params);
+    response = await axiosPost<BuildRequestResultModel>(
+      api,
+      "/build/request",
+      params
+    );
   }
 
   return response;
