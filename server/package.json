@@ -7,7 +7,9 @@
     "test": "jest --watchAll",
     "e2e-tests": "hermione",
     "e2e-tests:update": "hermione --update-refs",
-    "server": "ts-node index.ts"
+    "server": "node index.js",
+    "server:dev": "ts-node index.ts",
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
