@@ -11,10 +11,7 @@ export default function (state = defaultState, action) {
     case constants.TOGGLE_PROGRESS:
       return {
         ...state,
-        isInProgress:
-          action.payload === undefined
-            ? !state.common.isInProgress
-            : action.payload,
+        isInProgress: action.payload,
       };
     case constants.APP_LOADING:
       return {
