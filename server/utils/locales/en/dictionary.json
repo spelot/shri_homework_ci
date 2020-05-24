@@ -18,11 +18,11 @@
   "MAIN_BRANCH": "Main branch",
   "SYNC_EVERY": {
     "one": "Synchronize every",
-    "other": "Synchronize every"
+    "many": "Synchronize every"
   },
   "MINUTE": {
     "one": "minute",
-    "other": "minutes"
+    "many": "minutes"
   },
   "SAVE": "Save",
   "SHOW_MORE": "Show more",

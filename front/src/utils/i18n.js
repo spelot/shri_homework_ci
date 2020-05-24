@@ -17,7 +17,7 @@ function pForm(count) {
 
 const forms = {
   ru: pForm,
-  en: (count) => (count === 1 ? "one" : "other"),
+  en: (count) => (count === 1 ? "one" : "many"),
 };
 
 function generateText(msg, params) {
