@@ -9,10 +9,18 @@ import {
   fetchBuilds,
   fetchMoreBuilds,
 } from "../../store/actions/buildsActions";
+import {
+  getLanguageDictionary,
+  getCurrentLanguge,
+} from "../../store/reducers/settingsReducer";
+import i18n from "../../utils/i18n";
 
 function BuildList(props) {
   const blockName = "BuildList";
   const { className = "", modifiers = [] } = props;
+
+  const dictionary = useSelector(getLanguageDictionary);
+  const currentLanguage = useSelector(getCurrentLanguge);
 
   const buildsData = useSelector(getBuildsData);
 
@@ -86,7 +94,7 @@ function BuildList(props) {
         <Button
           className={`${blockName}-Button`}
           modifiers={[["type", "controlExtended"]]}
-          text="Show more"
+          text={i18n(dictionary, currentLanguage, "SHOW_MORE")}
           onClick={onShowMoreClick}
         />
       </div>

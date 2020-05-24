@@ -30,6 +30,8 @@ const axiosGet = require("./utils/axiosGet");
 const axiosPost = require("./utils/axiosPost");
 const axiosDelete = require("./utils/axiosDelete");
 
+const allLocales = require("./utils/locales/allLocales");
+
 let repoName = null,
   buildCommand,
   mainBranch,
@@ -252,6 +254,22 @@ startApp().then(() => {
     const { full, short } = await axiosGet(api, queryUrl);
 
     res.end(JSON.stringify(short));
+  });
+
+  app.get("/api/language", async (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+
+    const { lang = "en" } = req.query;
+
+    const response = allLocales[lang]
+      ? {
+          data: allLocales[lang],
+        }
+      : {
+          error: "wrong language, no dictionary on server for this language",
+        };
+
+    res.end(JSON.stringify(response));
   });
 
   // API NOT FOUND SECTION //

@@ -7,9 +7,6 @@ import { Provider } from "react-redux";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import store from "./store/store";
 
-// TODO:
-// get lagnuage from localStorage
-
 const rootElement = document.getElementById("root");
 
 ReactDOM.render(

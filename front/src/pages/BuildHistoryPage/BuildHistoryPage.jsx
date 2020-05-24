@@ -3,14 +3,26 @@ import constants from "../../utils/constants";
 import Header from "../../components/Header/Header";
 import BuildList from "../../components/BuildList/BuildList";
 import { useSelector } from "react-redux";
-import { getSettingsConfig } from "../../store/reducers/settingsReducer";
+import {
+  getSettingsConfig,
+  getLanguageDictionary,
+  getCurrentLanguge,
+} from "../../store/reducers/settingsReducer";
+import i18n from "../../utils/i18n";
 
 function BuildHistoryPage(props) {
   const { className = "" } = props;
 
+  const dictionary = useSelector(getLanguageDictionary);
+  const currentLanguage = useSelector(getCurrentLanguge);
+
   useEffect(() => {
-    document.title = `Build history | ${constants.SITE_NAME}`;
-  }, []);
+    document.title = `${i18n(
+      dictionary,
+      currentLanguage,
+      "BUILD_HISTORY"
+    )} | ${i18n(dictionary, currentLanguage, "SITE_NAME")}`;
+  }, [dictionary, currentLanguage]);
 
   const settingsConfig = useSelector(getSettingsConfig);
 
@@ -29,7 +41,7 @@ function BuildHistoryPage(props) {
               ["icon", "before"],
             ],
             onClick: constants.RUN_BUILD,
-            text: "Run build",
+            text: i18n(dictionary, currentLanguage, "RUN_BUILD"),
             iconType: "play",
           },
           {

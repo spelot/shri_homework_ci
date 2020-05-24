@@ -1,15 +1,23 @@
 import React, { useRef } from "react";
 import processModifiers from "../../utils/processModifiers";
 import "./Popup.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startNewBuild } from "../../store/actions/buildsActions";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import { togglePopup } from "../../store/actions/commonActions";
+import i18n from "../../utils/i18n";
+import {
+  getLanguageDictionary,
+  getCurrentLanguge,
+} from "../../store/reducers/settingsReducer";
 
 function Popup(props) {
   const blockName = "Form";
   const { className = "", modifiers = [] } = props;
+
+  const dictionary = useSelector(getLanguageDictionary);
+  const currentLanguage = useSelector(getCurrentLanguge);
 
   const dispatch = useDispatch();
 
@@ -40,20 +48,20 @@ function Popup(props) {
       >
         <div className={`${blockName}-Content`}>
           <div className={`${blockName}-Header Text Text_type_popupHeader`}>
-            New build
+            {i18n(dictionary, currentLanguage, "NEW_BUILD")}
           </div>
           <div className={`${blockName}-Item`}>
             <Input
               className={`${blockName}-Input`}
               modifiers={[["clear", "visible"]]}
               labelBefore={{
-                text: "Enter the commit hash which you want to build.",
+                text: "NEW_BUILD_POPUP_DESCRIPTION",
                 className: `${blockName}-Label`,
                 modifiers: [["type", "formLabel"]],
               }}
               id="commit"
               type="text"
-              placeholder="Commit hash"
+              placeholder={i18n(dictionary, currentLanguage, "COMMIT_HASH")}
               pattern="\S+"
               name="commit"
               required
@@ -66,7 +74,7 @@ function Popup(props) {
               <Button
                 className={`${blockName}-Button`}
                 modifiers={[["color", "accent"]]}
-                text="Run build"
+                text={i18n(dictionary, currentLanguage, "RUN_BUILD")}
                 type="submit"
               />
               <Button
@@ -74,7 +82,7 @@ function Popup(props) {
                 className={`${blockName}-Button`}
                 modifiers={[["color", "transparent"]]}
                 onClick={handleCancel}
-                text="Cancel"
+                text={i18n(dictionary, currentLanguage, "CANCEL")}
               />
             </div>
           </div>

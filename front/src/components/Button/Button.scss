@@ -33,6 +33,7 @@
     font-weight: var(--button-font-weight);
     letter-spacing: var(--button-letter-spacing);
     text-align: center;
+    white-space: nowrap;
   }
 
   &:hover {

@@ -1,0 +1,56 @@
+{
+  "CURRENT_LANG": "ru",
+  "SITE_NAME": "ШРИ CI-сервер",
+  "NEW_BUILD": "Новая сборка",
+  "NEW_BUILD_POPUP_DESCRIPTION": "Введите хеш коммита, на котором вы хотите создать сборку.",
+  "COMMIT_HASH": "Хэш коммита",
+  "RUN_BUILD": "Начать сборку",
+  "CANCEL": "Отмена",
+  "WITHOUT_CONFIG_DESC": "Введите настройки соединения с репозиторием и параметры синхронизации",
+  "OPEN_SETTINGS": "Открыть настройки",
+  "ERROR_404": "Страница не найдена. Ошибка 404.",
+  "GO_TO_HOME_PAGE": "Вернуться на главную страницу",
+  "SETTINGS": "Настройки",
+  "CONFIGURE_REP": "Настроить соединение с репозиторием",
+  "AND_SYNC_SETTINGS": "и настройки синхронизации",
+  "GITHUB_REP": "Репозиторий на GitHub",
+  "BUILD_COMMAND": "Команда для сборки",
+  "MAIN_BRANCH": "Основная ветка",
+  "SYNC_EVERY": {
+    "one": "Синхронизировать каждую",
+    "few": "Синхронизировать каждые",
+    "many": "Синхронизировать каждые"
+  },
+  "MINUTE": {
+    "one": "минуту",
+    "few": "минуты",
+    "many": "минут"
+  },
+  "SAVE": "Сохранить",
+  "SHOW_MORE": "Показать ещё",
+  "SUPPORT": "Поддержка",
+  "LEARNING": "Обучение",
+  "CHANGE_LOCALE": "English version",
+  "COPYRIGHT": "© {year} Ваше Имя",
+
+  "JANUARY": "янв",
+  "FEBRUARY": "февр",
+  "MARCH": "март",
+  "APRIL": "апр",
+  "MAY": "май",
+  "JUNE": "июнь",
+  "JULY": "июль",
+  "AUGUST": "авг",
+  "SEPTEMBER": "сент",
+  "OCTOBER": "окт",
+  "NOVEMBER": "нояб",
+  "DECEMBER": "дек",
+
+  "HOURS_SHORT": "ч",
+  "MINUTES_SHORT": "мин",
+
+  "PAGE_NOT_FOUND": "Страница не найдена",
+  "BUILD_HISTORY": "История сборок",
+  "BUILD_DETAILS": "Детали сборки",
+  "REBUILD": "Пересобрать"
+}

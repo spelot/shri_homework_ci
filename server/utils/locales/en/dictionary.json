@@ -1,0 +1,54 @@
+{
+  "CURRENT_LANG": "en",
+  "SITE_NAME": "School CI server",
+  "NEW_BUILD": "New build",
+  "NEW_BUILD_POPUP_DESCRIPTION": "Enter the commit hash which you want to build.",
+  "COMMIT_HASH": "Commit hash",
+  "RUN_BUILD": "Run build",
+  "CANCEL": "Cancel",
+  "WITHOUT_CONFIG_DESC": "Configure repository connection and synchronization settings",
+  "OPEN_SETTINGS": "Open settings",
+  "ERROR_404": "Page not found. Error 404.",
+  "GO_TO_HOME_PAGE": "Go to home page",
+  "SETTINGS": "Settings",
+  "CONFIGURE_REP": "Configure repository connection",
+  "AND_SYNC_SETTINGS": "and synchronization settings",
+  "GITHUB_REP": "GitHub repository",
+  "BUILD_COMMAND": "Build command",
+  "MAIN_BRANCH": "Main branch",
+  "SYNC_EVERY": {
+    "one": "Synchronize every",
+    "other": "Synchronize every"
+  },
+  "MINUTE": {
+    "one": "minute",
+    "other": "minutes"
+  },
+  "SAVE": "Save",
+  "SHOW_MORE": "Show more",
+  "SUPPORT": "Support",
+  "LEARNING": "Learning",
+  "CHANGE_LOCALE": "Русская версия",
+  "COPYRIGHT": "© {year} Your Name",
+
+  "JANUARY": "jan",
+  "FEBRUARY": "feb",
+  "MARCH": "mar",
+  "APRIL": "apr",
+  "MAY": "may",
+  "JUNE": "jun",
+  "JULY": "jul",
+  "AUGUST": "aug",
+  "SEPTEMBER": "sep",
+  "OCTOBER": "oct",
+  "NOVEMBER": "nov",
+  "DECEMBER": "dec",
+
+  "HOURS_SHORT": "h",
+  "MINUTES_SHORT": "min",
+
+  "PAGE_NOT_FOUND": "Page not found",
+  "BUILD_HISTORY": "Build history",
+  "BUILD_DETAILS": "Build details",
+  "REBUILD": "Rebuild"
+}

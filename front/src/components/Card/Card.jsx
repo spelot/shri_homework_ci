@@ -3,6 +3,12 @@ import Icon from "../Icon/Icon";
 import processModifiers from "../../utils/processModifiers";
 import { Link } from "react-router-dom";
 import "./Card.scss";
+import { useSelector } from "react-redux";
+import {
+  getLanguageDictionary,
+  getCurrentLanguge,
+} from "../../store/reducers/settingsReducer";
+import i18n from "../../utils/i18n";
 
 function Card(props) {
   const blockName = "Card";
@@ -21,6 +27,9 @@ function Card(props) {
     to,
   } = props;
 
+  const dictionary = useSelector(getLanguageDictionary);
+  const currentLanguage = useSelector(getCurrentLanguge);
+
   const [formattedDate, setFormattedDate] = useState({ full: "", short: "" });
   useEffect(() => {
     if (!start) return;
@@ -28,18 +37,18 @@ function Card(props) {
     const [rawDate, rawTime] = start.split("T");
 
     const monthsNames = {
-      "01": "янв",
-      "02": "февр",
-      "03": "март",
-      "04": "апр",
-      "05": "май",
-      "06": "июнь",
-      "07": "июль",
-      "08": "авг",
-      "09": "сент",
-      "10": "окт",
-      "11": "нояб",
-      "12": "дек",
+      "01": i18n(dictionary, currentLanguage, "JANUARY"),
+      "02": i18n(dictionary, currentLanguage, "FEBRUARY"),
+      "03": i18n(dictionary, currentLanguage, "MARCH"),
+      "04": i18n(dictionary, currentLanguage, "APRIL"),
+      "05": i18n(dictionary, currentLanguage, "MAY"),
+      "06": i18n(dictionary, currentLanguage, "JUNE"),
+      "07": i18n(dictionary, currentLanguage, "JULY"),
+      "08": i18n(dictionary, currentLanguage, "AUGUST"),
+      "09": i18n(dictionary, currentLanguage, "SEPTEMBER"),
+      "10": i18n(dictionary, currentLanguage, "OCTOBER"),
+      "11": i18n(dictionary, currentLanguage, "NOVEMBER"),
+      "12": i18n(dictionary, currentLanguage, "DECEMBER"),
     };
 
     const formatDate = (rawDate, rawTime) => {
@@ -54,7 +63,7 @@ function Card(props) {
     };
 
     setFormattedDate(formatDate(rawDate, rawTime));
-  }, [start]);
+  }, [start, dictionary, currentLanguage]);
 
   const [formattedDuration, setFormattedDuration] = useState("");
   useEffect(() => {
@@ -64,14 +73,18 @@ function Card(props) {
       const hours = Math.floor(duration / 60);
       const minutes = duration % 60;
 
-      const hoursStr = hours ? `${hours} ч` : "";
-      const minutesStr = minutes ? `${minutes} мин` : "";
+      const hoursStr = hours
+        ? `${hours} ${i18n(dictionary, currentLanguage, "HOURS_SHORT")}`
+        : "";
+      const minutesStr = minutes
+        ? `${minutes} ${i18n(dictionary, currentLanguage, "MINUTES_SHORT")}`
+        : "";
 
       return `${hoursStr}${hours && minutes ? " " : ""}${minutesStr}`;
     };
 
     setFormattedDuration(formatBuildTime(duration));
-  }, [duration]);
+  }, [duration, dictionary, currentLanguage]);
 
   function ellipseStr(str, maxLength) {
     if (str.length > maxLength) {

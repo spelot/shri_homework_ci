@@ -3,6 +3,11 @@ import Icon from "../Icon/Icon";
 import processModifiers from "../../utils/processModifiers";
 import "./Input.scss";
 import { useSelector } from "react-redux";
+import i18n from "../../utils/i18n";
+import {
+  getLanguageDictionary,
+  getCurrentLanguge,
+} from "../../store/reducers/settingsReducer";
 
 function Input(props) {
   const blockName = "Input";
@@ -36,6 +41,9 @@ function Input(props) {
         modifierName === "clear" && modifierValue === "visible"
     ).length > 0;
 
+  const dictionary = useSelector(getLanguageDictionary);
+  const currentLanguage = useSelector(getCurrentLanguge);
+
   const [valueFromState, setValueFromState] = useState(value);
 
   const handleChange = (event) => setValueFromState(event.target.value);
@@ -53,7 +61,9 @@ function Input(props) {
             labelBefore.modifiers
           )}`}
         >
-          {labelBefore.text}
+          {i18n(dictionary, currentLanguage, labelBefore.text, {
+            count: Number(valueFromState) || 0,
+          })}
         </label>
       )}
       <div
@@ -91,7 +101,9 @@ function Input(props) {
             labelAfter.modifiers
           )}`}
         >
-          {labelAfter.text}
+          {i18n(dictionary, currentLanguage, labelAfter.text, {
+            count: Number(valueFromState) || 0,
+          })}
         </label>
       )}
     </>

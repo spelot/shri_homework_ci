@@ -3,14 +3,26 @@ import constants from "../../utils/constants";
 import BuildDetails from "../../components/BuildDetails/BuildDetails";
 import { useSelector } from "react-redux";
 import Header from "../../components/Header/Header";
-import { getSettingsConfig } from "../../store/reducers/settingsReducer";
+import {
+  getSettingsConfig,
+  getLanguageDictionary,
+  getCurrentLanguge,
+} from "../../store/reducers/settingsReducer";
+import i18n from "../../utils/i18n";
 
 function BuildDetailsPage(props) {
   const { className = "" } = props;
 
+  const dictionary = useSelector(getLanguageDictionary);
+  const currentLanguage = useSelector(getCurrentLanguge);
+
   useEffect(() => {
-    document.title = `Build details | ${constants.SITE_NAME}`;
-  }, []);
+    document.title = `${i18n(
+      dictionary,
+      currentLanguage,
+      "BUILD_DETAILS"
+    )} | ${i18n(dictionary, currentLanguage, "SITE_NAME")}`;
+  }, [dictionary, currentLanguage]);
 
   const settingsConfig = useSelector(getSettingsConfig);
 
@@ -29,7 +41,7 @@ function BuildDetailsPage(props) {
               ["icon", "before"],
             ],
             onClick: constants.REBUILD,
-            text: "Rebuild",
+            text: i18n(dictionary, currentLanguage, "REBUILD"),
             iconType: "restart",
           },
           {

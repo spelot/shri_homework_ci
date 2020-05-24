@@ -60,8 +60,53 @@ export const fetchSettings = (errorsCount = 0, isNeedDispatchInEnd = false) => (
     });
 };
 
-export const fetchSettingsBeforeUsingApp = () => async (dispatch) => {
-  const settingsData = await fetchSettings()(dispatch);
+export const fetchLanguageDictionary = (
+  lang = "en",
+  errorsCount = 0,
+  isNeedDispatchInEnd = false
+) => (dispatch) => {
+  console.log("fetchLanguage" + lang);
+  return fetch(`${constants.SERVER_API}/language?lang=${lang}`)
+    .then((res) => res.json())
+    .then(async ({ data, error }) => {
+      if (error) {
+        errorsCount++;
+        if (errorsCount < 10) {
+          await new Promise((r) => setTimeout(r, 1000));
+          return fetchLanguageDictionary(
+            lang,
+            errorsCount,
+            isNeedDispatchInEnd
+          )(dispatch);
+        }
+        return null;
+      }
+
+      if (isNeedDispatchInEnd) {
+        dispatch({
+          type: constants.FETCH_LANGUAGE_DICTIONARY,
+          payload: data,
+        });
+      } else {
+        return data;
+      }
+    });
+};
+
+export const fetchSettingsBeforeUsingApp = (lang = "en") => async (
+  dispatch
+) => {
+  lang = window.localStorage.getItem("shri_ci_lang") || "en";
+
+  const [settingsData, languageDictionaryData] = await Promise.all([
+    fetchSettings()(dispatch),
+    fetchLanguageDictionary(lang)(dispatch),
+  ]);
+
+  dispatch({
+    type: constants.FETCH_LANGUAGE_DICTIONARY,
+    payload: languageDictionaryData || {},
+  });
 
   if (settingsData === null) {
     history.go();

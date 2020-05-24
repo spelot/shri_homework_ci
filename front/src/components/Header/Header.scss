@@ -30,7 +30,6 @@
 
     display: flex;
     justify-content: flex-end;
-    min-width: 133px;
   }
 
   &-Button {
@@ -47,10 +46,6 @@
   @media (max-width: $screen-mobile) {
     &-Content {
       padding: 12px 16px;
-    }
-
-    &-ButtonsBlock {
-      min-width: 64px;
     }
   }
 }

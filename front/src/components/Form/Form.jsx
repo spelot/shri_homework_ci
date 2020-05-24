@@ -6,10 +6,18 @@ import { saveSettings } from "../../store/actions/settingsActions";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import "./Form.scss";
+import {
+  getLanguageDictionary,
+  getCurrentLanguge,
+} from "../../store/reducers/settingsReducer";
+import i18n from "../../utils/i18n";
 
 function Form(props) {
   const blockName = "Form";
   const { className = "", modifiers = [] } = props;
+
+  const dictionary = useSelector(getLanguageDictionary);
+  const currentLanguage = useSelector(getCurrentLanguge);
 
   const dispatch = useDispatch();
 
@@ -60,12 +68,12 @@ function Form(props) {
       <div className={`${blockName}-Content`}>
         <div className={`${blockName}-Item ${blockName}-Item_type_header`}>
           <div className={`${blockName}-Label Text Text_type_formHeader`}>
-            Settings
+            {i18n(dictionary, currentLanguage, "SETTINGS")}
           </div>
           <div className="Text">
-            Configure repository connection{" "}
+            {i18n(dictionary, currentLanguage, "CONFIGURE_REP")}{" "}
             <span className="Text-NonBreakable">
-              and synchronization settings
+              {i18n(dictionary, currentLanguage, "AND_SYNC_SETTINGS")}
             </span>
           </div>
         </div>
@@ -74,7 +82,7 @@ function Form(props) {
             className={`${blockName}-Input`}
             modifiers={[["clear", "visible"]]}
             labelBefore={{
-              text: "GitHub repository",
+              text: "GITHUB_REP",
               className: `${blockName}-Label ${blockName}-Label_type_required`,
               modifiers: [["type", "formLabel"]],
             }}
@@ -92,7 +100,7 @@ function Form(props) {
             className={`${blockName}-Input`}
             modifiers={[["clear", "visible"]]}
             labelBefore={{
-              text: "Build command",
+              text: "BUILD_COMMAND",
               className: `${blockName}-Label`,
               modifiers: [["type", "formLabel"]],
             }}
@@ -110,7 +118,7 @@ function Form(props) {
             className={`${blockName}-Input`}
             modifiers={[["clear", "visible"]]}
             labelBefore={{
-              text: "Main branch",
+              text: "MAIN_BRANCH",
               className: `${blockName}-Label`,
               modifiers: [["type", "formLabel"]],
             }}
@@ -131,12 +139,12 @@ function Form(props) {
               ["align", "right"],
             ]}
             labelBefore={{
-              text: "Synchronize every",
+              text: "SYNC_EVERY",
               className: `${blockName}-Label`,
               modifiers: [],
             }}
             labelAfter={{
-              text: "minutes",
+              text: "MINUTE",
               className: `${blockName}-Label`,
               modifiers: [],
             }}
@@ -155,14 +163,14 @@ function Form(props) {
             <Button
               className={`${blockName}-Button`}
               modifiers={[["color", "accent"]]}
-              text="Save"
+              text={i18n(dictionary, currentLanguage, "SAVE")}
               type="submit"
             />
             <Button
               type="button"
               className={`${blockName}-Button`}
               onClick={handleCancel}
-              text="Cancel"
+              text={i18n(dictionary, currentLanguage, "CANCEL")}
             />
           </div>
         </div>
